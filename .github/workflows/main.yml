@@ -1,0 +1,37 @@
+name: deploy to lambda
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+jobs:
+  deploy_source:
+    name: deploy lambda from source
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v1
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          rm -rf test-lambda
+          mkdir test-lambda
+          cp src/* test-lambda/
+          cp requirements.txt test-lambda/
+          cd test-lambda
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          pip install -r requirements.txt -t .
+          zip -r ../deploy.zip .
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: dermoapp-patient-sp2-PatientDiagnoseAddition-HEQN6kNZaPpx
+          zip_file: deploy.zip

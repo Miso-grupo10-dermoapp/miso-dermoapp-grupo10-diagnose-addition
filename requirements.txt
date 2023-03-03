@@ -1,0 +1,4 @@
+requests
+pytest
+boto3==1.26.70
+moto==3.1.9
