@@ -1,6 +1,7 @@
 import json
 import uuid
 
+from datetime import date
 from db_service import insert_item, get_item
 from request_validation_utils import validate_body_params, validate_property_exist
 from request_response_utils import return_error_response, return_status_ok
