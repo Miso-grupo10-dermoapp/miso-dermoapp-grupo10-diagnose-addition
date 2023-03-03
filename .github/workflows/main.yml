@@ -4,7 +4,7 @@ on:
   # but only for the main branch
   push:
     branches:
-      - feature/dg-79-diagnose-addition
+      - main
 jobs:
   deploy_source:
     name: deploy lambda from source
