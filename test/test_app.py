@@ -9,7 +9,7 @@ import pytest
 import app
 from request_validation_utils import body_properties
 
-TABLE_NAME = "dermoapp-doctor"
+TABLE_NAME = "dermoapp-patient-diagnoses"
 
 
 @pytest.fixture

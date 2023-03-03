@@ -5,7 +5,7 @@ from db_service import insert_item, get_item
 from request_validation_utils import validate_body_params, validate_property_exist
 from request_response_utils import return_error_response, return_status_ok
 
-ENV_TABLE_NAME = "dermoapp-doctor"
+ENV_TABLE_NAME = "dermoapp-patient-diagnoses"
 
 
 def handler(event, context):
@@ -27,6 +27,7 @@ def add_diagnose(request):
     parsed_body['case_id'] = request['pathParameters']['case_id']
     parsed_body['patient_id'] = request['pathParameters']['patient_id']
     parsed_body['diagnose_id'] = str(uuid.uuid4())
+    parsed_body['creation_date'] = str(date.today())
 
     if insert_item(parsed_body):
         persisted_data = get_item("diagnose_id", parsed_body['diagnose_id'])
