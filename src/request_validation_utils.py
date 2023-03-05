@@ -1,11 +1,15 @@
 import json
 
 
-def validate_body_license(body):
+body_properties = ["doctor_id", "doctor_name", "diagnose"]
+
+
+def validate_body_params(body):
     try:
-        license_request = json.loads(body)
-        if not validate_property_exist("license_number", license_request):
-            raise RuntimeError("license cannot be empty")
+        specialties_body = json.loads(body)
+        for property in body_properties:
+            if not validate_property_exist(property, specialties_body):
+                raise RuntimeError("the property {0} is missing or without value".format(property))
     except Exception as err:
         raise RuntimeError("Input request is malformed or missing parameters, details " + str(err))
     return True
